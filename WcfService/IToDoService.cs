@@ -20,7 +20,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/{name}")]
-        [Description("Gets ToDoList by name.")]
+        [Description("Get todo list by name.")]
         List<ToDo> GetToDoListByName(string name);
 
         [OperationContract]
@@ -28,7 +28,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/{Id}")]
-        [Description("Deletes a Todo task by Id.")]
+        [Description("Delete a todo task by Id.")]
         HttpStatusCode DeleteToDo(string Id);
 
         [OperationContract]
@@ -36,7 +36,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/{Id}")]
-        [Description("Toggles Finnished status of a ToDo.")]
+        [Description("Toggle finnished status of a todo task. If false sets true and if true sets false.")]
         HttpStatusCode ChangeFinnishedStatus(string Id);
 
         [OperationContract]
@@ -44,7 +44,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo")]
-        [Description("Adds a todo.")]
+        [Description("Add a todo task.")]
         HttpStatusCode AddToDo(ToDo toDo);
 
         [OperationContract]
@@ -52,7 +52,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/{name}/finnished")]
-        [Description("Gets a ToDoList by name with tasks that are finnished.")]
+        [Description("Get a todo list by name with tasks that are finnished.")]
         List<ToDo> GetFinnishedToDos(string name);
 
         [OperationContract]
@@ -60,7 +60,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo")]
-        [Description("Updates a todo.")]
+        [Description("Update a todo task.")]
         HttpStatusCode UpdateToDo(ToDo toDo);
 
         [OperationContract]
@@ -68,7 +68,7 @@ namespace WcfService
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
         UriTemplate = "todo/{name}/sortedbyfinnished")]
-        [Description("Get a list of ToDos todo followed by a list of finnished.")]
+        [Description("Get a todo list which is sorted by finnished tasks. Finnished tasks first then not finnished.")]
         List<ToDo> GetSortedByFinnished(string name);
 
         [OperationContract]
@@ -76,7 +76,7 @@ namespace WcfService
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
         UriTemplate = "todo/{name}/orderbydeadline")]
-        [Description("Get a list of ToDos ordered by deadline.")]
+        [Description("Get a todo list by name which is ordered by deadline.")]
         List<ToDo> OrderByDeadline(string name);
 
         [OperationContract]
@@ -84,7 +84,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/addseveral")]
-        [Description("Adds several tasks using ',' as a delimiter in Tasks property.")]
+        [Description("Add several tasks in a given todo list, using ',' as a delimiter in tasks property of the JSON.")]
         HttpStatusCode AddSeveralTasks(ToDoSeveral toDos);
 
         [OperationContract]
@@ -92,7 +92,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/setestimate/{ESTIMATE}/{ID}")]
-        [Description("Toggles Finnished status of a ToDo.")]
+        [Description("Set estimate on a todo task.")]
         HttpStatusCode SetEstimate(string estimate, string Id);
 
         [OperationContract]
@@ -117,6 +117,6 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/{name}/numbertodos")]
         [Description("Returns a string with information about the numbers of finnished and unfinnished tasks.")]
-        string NumberOfTdos(string name);
+        string NumberOfTodos(string name);
     }
 }

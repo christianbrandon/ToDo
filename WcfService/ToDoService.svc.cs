@@ -297,6 +297,7 @@ namespace WcfService
 
             return HttpStatusCode.OK;
         }
+
         /// <summary>
         /// Returns a string with numbers of todos
         /// </summary>
@@ -323,11 +324,6 @@ namespace WcfService
             }
             numberOfTodos = "Finnished todos: " + finnished + " Unfinnished todos: " + unfinnished;
             return numberOfTodos;
-        }
-
-        public string NumberOfTdos(string name)
-        {
-            throw new NotImplementedException();
         }
 
         //public DateTime GetETA(string toDoName) // Denna kod är ett WIP vad gäller att hämta och konvertera alla EstimatedTime till en klump, och sen lägga det på dagens datum för att hitta en ETA.
