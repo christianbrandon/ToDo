@@ -299,31 +299,34 @@ namespace WcfService
         }
 
         /// <summary>
-        /// Returns a string with numbers of todos
+        /// Get finnished status of todo tasks in a todo list.
         /// </summary>
-        /// <param name="name">The name of the ToDoList</param>
-        /// <returns>String with numbers of finnished/unfinnished todos</returns>
-        public string NumberOfTodos(string name)
+        /// <param name="name">The name of the todo list.</param>
+        /// <returns>JSON with finnished and unfinnished property.</returns>
+        public ToDoStatusTracker GetToDoListStatus(string name)
         {
             List<ToDo> toDoList = repo.GetToDoListByName(name);
 
-            var finnished = 0;
-            var unfinnished = 0;
-            string numberOfTodos = "";
-
-            foreach (var ToDo in toDoList)
+            if (toDoList == null)
             {
-                if (ToDo.Finnished)
+                throw new WebFaultException(HttpStatusCode.NotFound);
+            }
+
+            ToDoStatusTracker statusTracker = new ToDoStatusTracker();
+            
+            foreach (var toDo in toDoList)
+            {
+                if (toDo.Finnished)
                 {
-                    finnished++;
+                    statusTracker.finnished++;
                 }
-                else if (!ToDo.Finnished)
+                else if (!toDo.Finnished)
                 {
-                    unfinnished++;
+                    statusTracker.unFinnished++;
                 }
             }
-            numberOfTodos = "Finnished todos: " + finnished + " Unfinnished todos: " + unfinnished;
-            return numberOfTodos;
+
+            return statusTracker;
         }
 
         //public DateTime GetETA(string toDoName) // Denna kod är ett WIP vad gäller att hämta och konvertera alla EstimatedTime till en klump, och sen lägga det på dagens datum för att hitta en ETA.

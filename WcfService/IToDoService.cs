@@ -115,8 +115,8 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{name}/numbertodos")]
-        [Description("Returns a string with information about the numbers of finnished and unfinnished tasks.")]
-        string NumberOfTodos(string name);
+            UriTemplate = "todo/{name}/status")]
+        [Description("Get a JSON with finnished(int) and unFinnished(int) todo tasks in a given todo list.")]
+        ToDoStatusTracker GetToDoListStatus(string name);
     }
 }
