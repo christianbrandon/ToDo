@@ -82,7 +82,7 @@ namespace WcfService
 
             toDo.Finnished = (toDo.Finnished) ? false : true;
 
-            this.UpdateToDo(toDo);
+            this.repo.UpdateToDo(toDo);
 
             return HttpStatusCode.OK;
         }
@@ -226,7 +226,7 @@ namespace WcfService
         /// </summary>
         /// <param name="toDos">List of ToDos.</param>
         /// <returns>HTTP Status based on if succesfull or not.</returns>
-        public HttpStatusCode AddSeveralTasks(ToDos toDos)
+        public HttpStatusCode AddSeveralTasks(ToDoSeveral toDos)
         {
 
             if (toDos.Tasks.IndexOf(',') == -1)

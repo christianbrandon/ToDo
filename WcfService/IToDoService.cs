@@ -85,7 +85,7 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo/addseveral")]
         [Description("Adds several tasks using ',' as a delimiter in Tasks property.")]
-        HttpStatusCode AddSeveralTasks(ToDos toDos);
+        HttpStatusCode AddSeveralTasks(ToDoSeveral toDos);
 
         [OperationContract]
         [WebInvoke(Method = "PUT",

@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace ToDoList
 {
     [DataContract]
-    public class ToDos
+    public class ToDoSeveral
     {
         [DataMember(Name = "toDoListName", IsRequired = true)]
         public string ToDoListName { get; set; }
