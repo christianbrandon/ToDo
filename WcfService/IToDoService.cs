@@ -19,31 +19,31 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{name}")]
+            UriTemplate = "{toDoListName}")]
         [Description("Get todo list by name.")]
-        List<ToDo> GetToDoListByName(string name);
+        List<ToDo> GetToDoListByName(string toDoListName);
 
         [OperationContract]
         [WebInvoke(Method = "DELETE",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{Id}")]
-        [Description("Delete a todo task by Id.")]
-        HttpStatusCode DeleteToDo(string Id);
+            UriTemplate = "{toDoListName}/{toDoTaskId}")]
+        [Description("Delete a todo task.")]
+        HttpStatusCode DeleteToDo(string toDoListName, string toDoTaskId);
 
         [OperationContract]
         [WebInvoke(Method = "PUT",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{Id}")]
+            UriTemplate = "{toDoListName}/{toDoTaskId}/finnishedstatus")]
         [Description("Toggle finnished status of a todo task. If false sets true and if true sets false.")]
-        HttpStatusCode ChangeFinnishedStatus(string Id);
+        HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo")]
+            UriTemplate = "{toDoListName}")]
         [Description("Add a todo task.")]
         HttpStatusCode AddToDo(ToDo toDo);
 

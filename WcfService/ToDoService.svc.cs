@@ -28,13 +28,13 @@ namespace WcfService
         }
 
         /// <summary>
-        /// Get ToDo List by Name
+        /// Get todo list by name.
         /// </summary>
-        /// <param name="name">ToDo List Name</param>
-        /// <returns>Todos found in the list specified by name parameter.</returns>
-        public List<ToDo> GetToDoListByName(string name)
+        /// <param name="toDoListName">todo list name.</param>
+        /// <returns>Todo tasks found in the list specified by name parameter. Throws 404 if not found</returns>
+        public List<ToDo> GetToDoListByName(string toDoListName)
         {
-            List<ToDo> toDoList = this.repo.GetToDoListByName(name);
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
             if (!toDoList.Any())
             {
@@ -44,47 +44,65 @@ namespace WcfService
             return toDoList;
         }
 
-
         /// <summary>
-        /// Deletes a ToDo based on Id provided.
+        /// Delete todo task in a todo list.
         /// </summary>
-        /// <param name="Id">Id of the ToDo to delete.</param>
-        /// <returns>HTTP status OK if deleted. Else NotFound if the item you're trying to delete doesn't exists.</returns>
-        public HttpStatusCode DeleteToDo(string Id)
+        /// <param name="toDoListName">The name of the list.</param>
+        /// <param name="toDoTaskId">The id of the task to delete.</param>
+        /// <returns>404 if list or task within the list not found. Otherwise 200.</returns>
+        public HttpStatusCode DeleteToDo(string toDoListName, string toDoTaskId)
         {
-            int parsedId = int.Parse(Id);
+            int parsedId = int.Parse(toDoTaskId);
 
-            if (this.repo.GetToDoById(parsedId) == null)
+            List<ToDo> toDoList = repo.GetToDoListByName(toDoListName);
+
+            if (toDoList == null)
             {
-                throw new WebFaultException(HttpStatusCode.NotFound);
+                return HttpStatusCode.NotFound;
             }
 
-            this.repo.DeleteToDo(parsedId);
+            ToDo toDoTaskToDelete = toDoList.FirstOrDefault(toDotask => toDotask.Id == parsedId);
+
+            if (toDoTaskToDelete == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            this.repo.DeleteToDo(toDoTaskToDelete.Id);
 
             return HttpStatusCode.OK;
         }
 
         /// <summary>
-        /// Toggles finnished status of a ToDo. If ToDo.Finnished true then sets to false. If ToDo.Finnished is false then sets to true. 
+        /// Change status of a todo task in a todo list.
         /// </summary>
-        /// <param name="Id">Id of ToDo</param>
-        /// <returns>HTTP OK on success. If not found HTTP NotFound</returns>
-        public HttpStatusCode ChangeFinnishedStatus(string Id)
+        /// <param name="toDoListName">The name of the todo list.</param>
+        /// <param name="toDoTaskId">The id of the todo task.</param>
+        /// <returns>200 OK if succefull otherwise 404 if list is not found or if id is not within the list.</returns>
+        public HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId)
         {
-            int parsedId = int.Parse(Id);
+            int parsedId = int.Parse(toDoTaskId);
 
-            ToDo toDo = this.repo.GetToDoById(parsedId);
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
-            if (toDo == null)
+            if (toDoList == null)
             {
-                throw new WebFaultException(HttpStatusCode.NotFound);
+                return HttpStatusCode.NotFound;
             }
 
-            toDo.Finnished = (toDo.Finnished) ? false : true;
+            ToDo toDoTask = toDoList.FirstOrDefault(task => task.Id == parsedId);
+            
+            if (toDoTask == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
 
-            this.repo.UpdateToDo(toDo);
+            toDoTask.Finnished = (toDoTask.Finnished) ? false : true;
+
+            this.repo.UpdateToDo(toDoTask);
 
             return HttpStatusCode.OK;
+            
         }
 
         /// <summary>
