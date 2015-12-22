@@ -43,7 +43,7 @@ namespace WcfService
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "{toDoListName}")]
+            UriTemplate = "todolist/todo")]
         [Description("Add a todo task.")]
         HttpStatusCode AddToDo(ToDo toDo);
 
