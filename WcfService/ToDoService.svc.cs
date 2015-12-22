@@ -130,9 +130,9 @@ namespace WcfService
         /// </summary>
         /// <param name="name">The name of the ToDo List.</param>
         /// <returns>List with ToDo tasks that are finnished. If ToDoList is not found HTTP NotFound</returns>
-        public List<ToDo> GetFinnishedToDos(string name)
+        public List<ToDo> GetFinnishedToDos(string toDoListName)
         {
-            List<ToDo> toDoList = this.repo.GetToDoListByName(name);
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
             if (!toDoList.Any())
             {
@@ -172,11 +172,11 @@ namespace WcfService
         /// <summary>
         /// Returns a list of finnished and unfinnished ToDos.
         /// </summary>
-        /// <param name="name">The name of the ToDolist</param>
+        /// <param name="toDoListName">The name of the ToDolist</param>
         /// <returns>A sorted list of Finnished and unfinnished ToDos in the given list</returns>
-        public List<ToDo> GetSortedByFinnished(string name)
+        public List<ToDo> GetSortedByFinnished(string toDoListName)
         {
-            List<ToDo> toDoList = this.repo.GetToDoListByName(name);
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
 
             if (!toDoList.Any())
@@ -208,12 +208,12 @@ namespace WcfService
         /// <summary>
         /// Returns ordered ToDoList by deadline
         /// </summary>
-        /// <param name="name">The name of the ToDoList</param>
+        /// <param name="toDoListName">The name of the ToDoList</param>
         /// <returns>Ordered ToDoList by deadline</returns>
 
-        public List<ToDo> OrderByDeadline(string name)
+        public List<ToDo> OrderByDeadline(string toDoListName)
         {
-            List<ToDo> toDoList = this.repo.GetToDoListByName(name);
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
             if (!toDoList.Any())
             {
@@ -319,11 +319,11 @@ namespace WcfService
         /// <summary>
         /// Get finnished status of todo tasks in a todo list.
         /// </summary>
-        /// <param name="name">The name of the todo list.</param>
+        /// <param name="toDoListName">The name of the todo list.</param>
         /// <returns>JSON with finnished and unfinnished property.</returns>
-        public ToDoStatusTracker GetToDoListStatus(string name)
+        public ToDoStatusTracker GetToDoListStatus(string toDoListName)
         {
-            List<ToDo> toDoList = repo.GetToDoListByName(name);
+            List<ToDo> toDoList = repo.GetToDoListByName(toDoListName);
 
             if (toDoList == null)
             {

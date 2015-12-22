@@ -51,9 +51,9 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{name}/finnished")]
-        [Description("Get a todo list by name with tasks that are finnished.")]
-        List<ToDo> GetFinnishedToDos(string name);
+            UriTemplate = "{toDoListName}/finnished")]
+        [Description("Get finnished tasks withint a list")]
+        List<ToDo> GetFinnishedToDos(string toDoListName);
 
         [OperationContract]
         [WebInvoke(Method = "PUT",
@@ -67,17 +67,17 @@ namespace WcfService
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todo/{name}/sortedbyfinnished")]
+        UriTemplate = "{toDoListname}/sortedbyfinnished")]
         [Description("Get a todo list which is sorted by finnished tasks. Finnished tasks first then not finnished.")]
-        List<ToDo> GetSortedByFinnished(string name);
+        List<ToDo> GetSortedByFinnished(string toDoListName);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todo/{name}/orderbydeadline")]
+        UriTemplate = "{toDoListName}/orderbydeadline")]
         [Description("Get a todo list by name which is ordered by deadline.")]
-        List<ToDo> OrderByDeadline(string name);
+        List<ToDo> OrderByDeadline(string toDoListName);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -115,8 +115,8 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todo/{name}/status")]
+            UriTemplate = "{toDoListName}/status")]
         [Description("Get a JSON with finnished(int) and unFinnished(int) todo tasks in a given todo list.")]
-        ToDoStatusTracker GetToDoListStatus(string name);
+        ToDoStatusTracker GetToDoListStatus(string toDoListName);
     }
 }
