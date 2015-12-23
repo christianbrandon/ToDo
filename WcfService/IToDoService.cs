@@ -43,6 +43,14 @@ namespace WcfService
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "todolist")]
+        [Description("Add a new todo list with todo tasks.")]
+        HttpStatusCode AddToDoList(List<ToDo> toDoList);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todolist/todo")]
         [Description("Add a todo task.")]
         HttpStatusCode AddToDo(ToDo toDo);
@@ -52,7 +60,7 @@ namespace WcfService
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todolist/{todolistname}/finnished")]
-        [Description("Get finnished tasks withint a list")]
+        [Description("Get finnished tasks withint a todo list")]
         List<ToDo> GetFinnishedToDos(string toDoListName);
 
         [OperationContract]
