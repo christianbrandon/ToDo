@@ -15,7 +15,7 @@ namespace ToDoHost
     {
         static void Main()
         {
-            var serviceUri = "http://localhost/ToDoService";
+            var serviceUri = "http://localhost/todoservice";
 
             WebServiceHost toDoHost = new WebServiceHost(typeof(ToDoService), new Uri(serviceUri));
 
