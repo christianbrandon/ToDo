@@ -355,42 +355,41 @@ namespace WcfService
         /// </summary>
         /// <param name="toDoList">List of todo tasks.</param>
         /// <returns>HTTP 409 if the todo list already exists.
-        /// HTTP 400 if ToDo.Name property is not equal in all of the objects within the list.
         /// HTTP 201 on success.</returns>
-        public HttpStatusCode AddToDoList(List<ToDo> toDoList)
+        public HttpStatusCode AddToDoList(string toDoListName, List<ToDoMinified> toDoList)
         {
             if (toDoList == null)
             {
                 return HttpStatusCode.BadRequest;
             }
 
-            
-            ToDo toDoTask = toDoList.First();
+            List<ToDo> newToDoList = this.repo.GetToDoListByName(toDoListName);
 
-            string toDoListName = toDoTask.Name;
-
-            //Check to see if the .Name property of the ToDo objects in the list are equal.
-            foreach (var toDoTaskName in toDoList)
-            {
-                if (toDoTaskName.Name.ToLower() != toDoListName.ToLower())
-                {
-                    return HttpStatusCode.BadRequest;
-                }
-            }
-
-            bool alreadyExists = this.repo.GetToDoListByName(toDoListName).Any();
-            
-            if (alreadyExists)
+            if (newToDoList.Count > 0)
             {
                 return HttpStatusCode.Conflict;
             }
 
-            foreach (var toDo in toDoList)
+            foreach (var task in toDoList)
+            {
+                ToDo toDoTask = new ToDo();
+                toDoTask.Name = toDoListName;
+                toDoTask.Description = task.TaskDescription;
+                toDoTask.Finnished = task.Finnished;
+                toDoTask.DeadLine = task.DeadLine ?? DateTime.Now;
+                toDoTask.CreatedDate = DateTime.Now;
+                toDoTask.EstimationTime = task.EstimationTime ?? 0;
+
+                newToDoList.Add(toDoTask);
+            }
+
+            foreach (var toDo in newToDoList)
             {
                 this.repo.AddToDo(toDo);
             }
 
-            return HttpStatusCode.Created;
+            return HttpStatusCode.OK;
+
         }
 
         //public DateTime GetETA(string toDoName) // Denna kod är ett WIP vad gäller att hämta och konvertera alla EstimatedTime till en klump, och sen lägga det på dagens datum för att hitta en ETA.
