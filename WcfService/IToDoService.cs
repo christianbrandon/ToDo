@@ -35,9 +35,9 @@ namespace WcfService
         [WebInvoke(Method = "PUT",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todolist/{todolistname}/{todotaskid}/finnishedstatus")]
-        [Description("Toggle finnished status of a todo task. If false sets true and if true sets false.")]
-        HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId);
+            UriTemplate = "todolist/{todolistname}/{todotaskid}/{finnishedstatus}")]
+        [Description("Change finnished status of a todo task.")]
+        HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId, string finnishedStatus);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

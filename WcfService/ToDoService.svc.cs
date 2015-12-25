@@ -79,9 +79,11 @@ namespace WcfService
         /// <param name="toDoListName">The name of the todo list.</param>
         /// <param name="toDoTaskId">The id of the todo task.</param>
         /// <returns>200 OK if succefull otherwise 404 if list is not found or if id is not within the list.</returns>
-        public HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId)
+        public HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId, string finnishedStatus)
         {
             int parsedId = int.Parse(toDoTaskId);
+
+            bool finnished = (finnishedStatus.ToLower() == "true") ? true : false;
 
             List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
@@ -97,7 +99,7 @@ namespace WcfService
                 return HttpStatusCode.NotFound;
             }
 
-            toDoTask.Finnished = (toDoTask.Finnished) ? false : true;
+            toDoTask.Finnished = finnished;
 
             this.repo.UpdateToDo(toDoTask);
 
