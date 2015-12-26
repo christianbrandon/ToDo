@@ -255,7 +255,7 @@ namespace WcfService
         /// </summary>
         /// <param name="toDos">List of ToDos.</param>
         /// <returns>HTTP Status based on if succesfull or not.</returns>
-        public HttpStatusCode AddSeveralTasks(ToDoSeveral toDos)
+        public HttpStatusCode AddSeveralTasks(ToDoShort toDos)
         {
 
             if (toDos.Tasks.IndexOf(',') == -1)
