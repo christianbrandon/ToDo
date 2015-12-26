@@ -112,19 +112,28 @@ namespace WcfService
         /// </summary>
         /// <param name="toDo">ToDo JSON object.</param>
         /// <returns>HTTP OK if success, else HTTP NotAcceptable</returns>
-        public HttpStatusCode AddToDo(ToDo toDo)
+        public HttpStatusCode AddToDoTask(string toDoListName, ToDoMinified toDo)
         {
 
-            if (toDo.Name.Length >= 6 && Regex.IsMatch(toDo.Name, @"^[a-zA-Z]+$"))
-            // Check length and that the name uses only letters.
+            List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
+
+            if (toDoList.Count == 0)
             {
-                this.repo.AddToDo(toDo);
-                return HttpStatusCode.Created;
+                return HttpStatusCode.NotFound;
             }
-            else
-            {
-                return HttpStatusCode.NotAcceptable;
-            }
+
+            ToDo toDoTask = new ToDo();
+
+            toDoTask.Name = toDoListName;
+            toDoTask.Description = toDo.TaskDescription;
+            toDoTask.Finnished = toDo.Finnished;
+            toDoTask.EstimationTime = toDo.EstimationTime ?? 0;
+            toDoTask.CreatedDate = DateTime.Now;
+            toDoTask.DeadLine = toDo.DeadLine ?? DateTime.Now;
+
+            this.repo.AddToDo(toDoTask);
+
+            return HttpStatusCode.OK;
         }
 
         /// <summary>
@@ -266,7 +275,7 @@ namespace WcfService
                 toDo.EstimationTime = 0;
                 toDo.Finnished = false;
 
-                this.AddToDo(toDo);
+                this.repo.AddToDo(toDo);
             }
 
             return HttpStatusCode.Created;
