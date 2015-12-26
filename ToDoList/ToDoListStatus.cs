@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 namespace ToDoList
 {
     [DataContract]
-    public class ToDoStatusTracker
+    public class ToDoListStatus
     {
         [DataMember(Name = "finnished")]
         public int finnished { get; set; }

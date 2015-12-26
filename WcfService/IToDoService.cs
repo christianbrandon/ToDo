@@ -32,12 +32,12 @@ namespace WcfService
         HttpStatusCode DeleteToDo(string toDoListName, string toDoTaskId);
 
         [OperationContract]
-        [WebInvoke(Method = "PUT",
+        [WebInvoke(Method = "PATCH",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todolist/{todolistname}/{todotaskid}/{finnishedstatus}")]
-        [Description("Change finnished status of a todo task.")]
-        HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId, string finnishedStatus);
+            UriTemplate = "todolist/{todolistname}/{todotaskid}")]
+        [Description("Toggles finnished status of a todo task. If false then sets to true. If true sets to false.")]
+        HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -45,7 +45,7 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todolist/{newtodolistname}")]
         [Description("Add a new todo list with todo tasks.")]
-        HttpStatusCode AddToDoList(string newToDoListName, List<ToDoMinified> toDoList);
+        List<ToDo> AddToDoList(string newToDoListName, List<ToDoMinified> toDoList);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -59,7 +59,7 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todolist/{todolistname}/todotasks/finnished")]
+            UriTemplate = "todolist/{todolistname}/finnishedtasks")]
         [Description("Get finnished tasks withint a todo list")]
         List<ToDo> GetFinnishedToDos(string toDoListName);
 
@@ -75,7 +75,7 @@ namespace WcfService
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todolist/{todolistname}/todotasks/sortedbyfinnished")]
+        UriTemplate = "todolist/{todolistname}/todotasks?sort=finnished")]
         [Description("Get a todo list which is sorted by finnished tasks. Finnished tasks first then not finnished.")]
         List<ToDo> GetSortedByFinnished(string toDoListName);
 
@@ -83,7 +83,7 @@ namespace WcfService
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todolist/{todolistname}/todotasks/orderbydeadline")]
+        UriTemplate = "todolist/{todolistname}/todotasks?sort=deadline")]
         [Description("Get a todo list by name with tasks that is ordered by deadline.")]
         List<ToDo> OrderByDeadline(string toDoListName);
 
@@ -125,6 +125,6 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todolist/{todolistname}/status")]
         [Description("Get a JSON with finnished(int) and unFinnished(int) todo tasks in a given todo list.")]
-        ToDoStatusTracker GetToDoListStatus(string toDoListName);
+        ToDoListStatus GetToDoListStatus(string toDoListName);
     }
 }

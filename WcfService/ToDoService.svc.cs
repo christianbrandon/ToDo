@@ -79,15 +79,13 @@ namespace WcfService
         /// <param name="toDoListName">The name of the todo list.</param>
         /// <param name="toDoTaskId">The id of the todo task.</param>
         /// <returns>200 OK if succefull otherwise 404 if list is not found or if id is not within the list.</returns>
-        public HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId, string finnishedStatus)
+        public HttpStatusCode ChangeFinnishedStatus(string toDoListName, string toDoTaskId)
         {
             int parsedId = int.Parse(toDoTaskId);
 
-            bool finnished = (finnishedStatus.ToLower() == "true") ? true : false;
-
             List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
-            if (toDoList == null)
+            if (!toDoList.Any())
             {
                 return HttpStatusCode.NotFound;
             }
@@ -98,6 +96,8 @@ namespace WcfService
             {
                 return HttpStatusCode.NotFound;
             }
+
+            bool finnished = (toDoTask.Finnished) ? false : true;
 
             toDoTask.Finnished = finnished;
 
@@ -332,7 +332,7 @@ namespace WcfService
         /// </summary>
         /// <param name="toDoListName">The name of the todo list.</param>
         /// <returns>JSON with finnished and unfinnished property.</returns>
-        public ToDoStatusTracker GetToDoListStatus(string toDoListName)
+        public ToDoListStatus GetToDoListStatus(string toDoListName)
         {
             List<ToDo> toDoList = repo.GetToDoListByName(toDoListName);
 
@@ -341,45 +341,45 @@ namespace WcfService
                 throw new WebFaultException(HttpStatusCode.NotFound);
             }
 
-            ToDoStatusTracker statusTracker = new ToDoStatusTracker();
+            ToDoListStatus toDoListStatus = new ToDoListStatus();
             
             foreach (var toDo in toDoList)
             {
                 if (toDo.Finnished)
                 {
-                    statusTracker.finnished++;
+                    toDoListStatus.finnished++;
                 }
                 else if (!toDo.Finnished)
                 {
-                    statusTracker.unFinnished++;
+                    toDoListStatus.unFinnished++;
                 }
             }
 
-            return statusTracker;
+            return toDoListStatus;
         }
 
 
         /// <summary>
-        /// Add a new todo list.
+        /// Add a new todolist.
         /// </summary>
-        /// <param name="toDoList">List of todo tasks.</param>
-        /// <returns>HTTP 409 if the todo list already exists.
-        /// HTTP 201 on success.</returns>
-        public HttpStatusCode AddToDoList(string toDoListName, List<ToDoMinified> toDoList)
+        /// <param name="toDoListName">Name of the todo list.</param>
+        /// <param name="toDoTasks">List of todo tasks.</param>
+        /// <returns>The newly created todo list with all of the todo task objects</returns>
+        public List<ToDo> AddToDoList(string toDoListName, List<ToDoMinified> toDoTasks)
         {
-            if (toDoList == null)
+            if (toDoTasks == null)
             {
-                return HttpStatusCode.BadRequest;
+                throw new WebFaultException(HttpStatusCode.BadRequest);
             }
 
             List<ToDo> newToDoList = this.repo.GetToDoListByName(toDoListName);
 
-            if (newToDoList.Count > 0)
+            if (newToDoList.Any())
             {
-                return HttpStatusCode.Conflict;
+                throw new WebFaultException(HttpStatusCode.Conflict);
             }
 
-            foreach (var task in toDoList)
+            foreach (var task in toDoTasks)
             {
                 ToDo toDoTask = new ToDo();
                 toDoTask.Name = toDoListName;
@@ -397,7 +397,7 @@ namespace WcfService
                 this.repo.AddToDo(toDo);
             }
 
-            return HttpStatusCode.OK;
+            return this.repo.GetToDoListByName(toDoListName);
 
         }
 
