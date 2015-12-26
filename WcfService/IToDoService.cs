@@ -51,7 +51,7 @@ namespace WcfService
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todolist/{todolistname}")]
+            UriTemplate = "todolist/{todolistname}/")]
         [Description("Add a todo task.")]
         HttpStatusCode AddToDoTask(string toDoListName, ToDoMinified toDo);
 
@@ -59,7 +59,7 @@ namespace WcfService
         [WebInvoke(Method = "GET",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "todolist/{todolistname}/finnished")]
+            UriTemplate = "todolist/{todolistname}/todotasks/finnished")]
         [Description("Get finnished tasks withint a todo list")]
         List<ToDo> GetFinnishedToDos(string toDoListName);
 
@@ -75,7 +75,7 @@ namespace WcfService
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todolist/{todolistname}/sortedbyfinnished")]
+        UriTemplate = "todolist/{todolistname}/todotasks/sortedbyfinnished")]
         [Description("Get a todo list which is sorted by finnished tasks. Finnished tasks first then not finnished.")]
         List<ToDo> GetSortedByFinnished(string toDoListName);
 
@@ -83,8 +83,8 @@ namespace WcfService
         [WebInvoke(Method = "GET",
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
-        UriTemplate = "todolist/{todolistname}/orderbydeadline")]
-        [Description("Get a todo list by name which is ordered by deadline.")]
+        UriTemplate = "todolist/{todolistname}/todotasks/orderbydeadline")]
+        [Description("Get a todo list by name with tasks that is ordered by deadline.")]
         List<ToDo> OrderByDeadline(string toDoListName);
 
         [OperationContract]
