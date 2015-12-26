@@ -168,16 +168,16 @@ namespace WcfService
         /// </summary>
         /// <param name="toDo">ToDo object</param>
         /// <returns>HTTP OK sucess. HTTP NotFound if task can't be found</returns>
-        public HttpStatusCode UpdateToDo(ToDo toDo)
+        public ToDo UpdateToDo(ToDo toDo)
         {
             if (this.repo.GetToDoById(toDo.Id) == null)
             {
-                return HttpStatusCode.NotFound;
+                throw new WebFaultException(HttpStatusCode.NotFound);
             }
 
             this.repo.UpdateToDo(toDo);
 
-            return HttpStatusCode.OK;
+            return toDo;
         }
 
         /// <summary>

@@ -69,7 +69,7 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todo")]
         [Description("Update a todo task.")]
-        HttpStatusCode UpdateToDo(ToDo toDo);
+        ToDo UpdateToDo(ToDo toDo);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
