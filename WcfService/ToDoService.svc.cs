@@ -112,14 +112,14 @@ namespace WcfService
         /// </summary>
         /// <param name="toDo">ToDo JSON object.</param>
         /// <returns>HTTP OK if success, else HTTP NotAcceptable</returns>
-        public HttpStatusCode AddToDoTask(string toDoListName, ToDoMinified toDo)
+        public ToDo AddToDoTask(string toDoListName, ToDoMinified toDo)
         {
 
             List<ToDo> toDoList = this.repo.GetToDoListByName(toDoListName);
 
-            if (toDoList.Count == 0)
+            if (!toDoList.Any())
             {
-                return HttpStatusCode.NotFound;
+                throw new WebFaultException(HttpStatusCode.NotFound);
             }
 
             ToDo toDoTask = new ToDo();
@@ -133,7 +133,7 @@ namespace WcfService
 
             this.repo.AddToDo(toDoTask);
 
-            return HttpStatusCode.OK;
+            return toDoTask;
         }
 
         /// <summary>

@@ -53,7 +53,7 @@ namespace WcfService
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "todolist/{todolistname}/")]
         [Description("Add a todo task.")]
-        HttpStatusCode AddToDoTask(string toDoListName, ToDoMinified toDo);
+        ToDo AddToDoTask(string toDoListName, ToDoMinified toDo);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
